@@ -30,22 +30,15 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: ${{ runner.os }}-buildx-
 
-      # 4. Cache npm dependencies
-      - name: Cache npm dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-npm-
 
-      # 5. Extract metadata
+      # 4. Extract metadata
       - name: Extract metadata
         id: meta
         run: |
           echo "REPO_NAME=${GITHUB_REPOSITORY##*/}" >> "$GITHUB_OUTPUT"
           echo "SHORT_SHA=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
 
-      # 6. Build Docker image
+      # 5. Build Docker image
       - name: Build Docker image for tests
         uses: docker/build-push-action@v6
         with:
